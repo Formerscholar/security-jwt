@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chad.springsecurityjwtdemo.mapper.SysMenuMapper">
+  <resultMap id="BaseResultMap" type="com.chad.springsecurityjwtdemo.model.SysMenu">
+    <!--@mbg.generated-->
+    <!--@Table springsecurityjwt.sys_menu-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="route" jdbcType="VARCHAR" property="route" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, route
+  </sql>
+  <update id="updateBatch" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update springsecurityjwt.sys_menu
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="route = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=INTEGER} then #{item.route,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id,jdbcType=INTEGER}
+    </foreach>
+  </update>
+  <update id="updateBatchSelective" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update springsecurityjwt.sys_menu
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="route = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.route != null">
+            when id = #{item.id,jdbcType=INTEGER} then #{item.route,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id,jdbcType=INTEGER}
+    </foreach>
+  </update>
+  <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into springsecurityjwt.sys_menu
+    (route)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.route,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+  <insert id="insertOrUpdate" keyColumn="id" keyProperty="id" parameterType="com.chad.springsecurityjwtdemo.model.SysMenu" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into springsecurityjwt.sys_menu
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      route,
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      #{route,jdbcType=VARCHAR},
+    </trim>
+    on duplicate key update 
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        id = #{id,jdbcType=INTEGER},
+      </if>
+      route = #{route,jdbcType=VARCHAR},
+    </trim>
+  </insert>
+  <insert id="insertOrUpdateSelective" keyColumn="id" keyProperty="id" parameterType="com.chad.springsecurityjwtdemo.model.SysMenu" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into springsecurityjwt.sys_menu
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="route != null">
+        route,
+      </if>
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="route != null">
+        #{route,jdbcType=VARCHAR},
+      </if>
+    </trim>
+    on duplicate key update 
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        id = #{id,jdbcType=INTEGER},
+      </if>
+      <if test="route != null">
+        route = #{route,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>
